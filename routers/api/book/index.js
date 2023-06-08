@@ -1,9 +1,9 @@
 const {
     registerBook,
-    updateBook,
+    updateBook
 } = require("../../../controllers/book.contoller");
 
-module.exports = function (fastify, opts, next) {
+module.exports = function(fastify, opts, next) {
     fastify.post("/", registerBook);
     fastify.put("/:id", updateBook);
     next();
