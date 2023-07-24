@@ -95,7 +95,5 @@ exports.getUserById = async (req, res) => {
         });
     }
 
-    res.send({
-        ...user,
-    });
+    res.send(user._doc);
 };

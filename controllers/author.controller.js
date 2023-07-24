@@ -78,7 +78,5 @@ exports.getAuthorById = async (req, res) => {
         });
     }
 
-    res.send({
-        ...author,
-    });
+    res.send(author._doc);
 };
