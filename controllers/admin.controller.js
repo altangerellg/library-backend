@@ -118,7 +118,5 @@ exports.getAdminById = async (req, res) => {
         });
     }
 
-    res.send({
-        ...admin,
-    });
+    res.send(admin._doc);
 };

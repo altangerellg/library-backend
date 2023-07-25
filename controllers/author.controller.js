@@ -9,6 +9,12 @@ exports.registerAuthor = async (req, res) => {
     });
 };
 exports.updateAuthor = async (req) => {
+    const author = await Author.findById(req.params.id);
+    if (author._doc.image !== req.body.image) {
+        const image = author._doc.image;
+        if (fs.existsSync(path.join(__dirname, "..", "public", "uploads", image)))
+            fs.unlinkSync(path.join(__dirname, "..", "public", "uploads", image));
+    }
     await Author.findByIdAndUpdate(req.params.id, req.body);
     return {
         message: "Successfully updated",
@@ -78,7 +84,5 @@ exports.getAuthorById = async (req, res) => {
         });
     }
 
-    res.send({
-        ...author,
-    });
+    res.send(author._doc);
 };

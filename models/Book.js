@@ -43,7 +43,7 @@ const BookSchema = new Schema({
     },
     summary: {
         // eslint-disable-next-line no-undef
-        type: Text,
+        type: String,
         required: true,
     },
     filePath: String,

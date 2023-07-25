@@ -108,7 +108,5 @@ exports.getBookById = async (req, res) => {
         });
     }
 
-    res.send({
-        ...book,
-    });
+    res.send(book._doc);
 };
