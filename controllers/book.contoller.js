@@ -85,6 +85,10 @@ exports.getBook = async (req, res) => {
             let authorId = req.body.author;
             filter["author._id"] = new mongoose.Types.ObjectId(authorId)
         }
+        else if(key==="searchQuery"){
+            let searchQuery = req.body.searchQuery;
+            filter["name"] = new RegExp(".*" + searchQuery + ".*","gmi");
+        }
         // else if (key === "loves") {
         //     filter.loves = {
         //         $gte: req.body.loves,
