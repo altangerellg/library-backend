@@ -1,6 +1,7 @@
 const Book = require("../models/Book");
 const Category = require("../models/Category");
-const { Types } = require("mongoose");
+const Author = require("../models/Author")
+const { Types, default: mongoose } = require("mongoose");
 const fs = require("fs");
 const path = require("path");
 
@@ -8,11 +9,11 @@ exports.registerBook = async (req, res) => {
     // console.log(req);
 
     const categories = await Category.find({ _id: { $in: req.body.categories.map((e) => new Types.ObjectId(e)) } });
-    // const author = await Author.findById(req.body.author);
+    const author = await Author.findById(req.body.author);
     await Book.create({
         ...req.body,
         categories,
-        // author,
+        author,
     });
 
     return res.status(201).send({
@@ -71,6 +72,18 @@ exports.getBook = async (req, res) => {
                 $gte: new Date(req.body.pubStartDate),
                 $lt: new Date(req.body.pubEndDate),
             };
+        }
+        else if(key === "category"){
+            let categoryId = req.body.category;
+            filter["categories"] = {
+                $elemMatch:{
+                    "_id" : new mongoose.Types.ObjectId(categoryId)
+                }
+            }
+        }
+        else if(key === "author"){
+            let authorId = req.body.author;
+            filter["author._id"] = new mongoose.Types.ObjectId(authorId)
         }
         // else if (key === "loves") {
         //     filter.loves = {
