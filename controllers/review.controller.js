@@ -1,11 +1,11 @@
 const Review = require("../models/Review")
-const jwt = require("jsonwebtoken")
+const jwt = require("../utils/jwt")
 const Book = require("../models/Book");
 const User = require("../models/User");
 exports.createReview = async(req,res) => {
   try{
     const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token,process.env.JWT_SECRET)
+    const decoded = jwt.verifyJWT(token)
     const userId = decoded.userId;
     console.log(userId)
     const user = await User.findById(userId);
