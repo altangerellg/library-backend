@@ -1,6 +1,6 @@
 const Book = require("../models/Book");
 const Category = require("../models/Category");
-const Author = require("../models/Author")
+const Author = require("../models/Author");
 const { Types, default: mongoose } = require("mongoose");
 const fs = require("fs");
 const path = require("path");
@@ -72,22 +72,19 @@ exports.getBook = async (req, res) => {
                 $gte: new Date(req.body.pubStartDate),
                 $lt: new Date(req.body.pubEndDate),
             };
-        }
-        else if(key === "category"){
+        } else if (key === "category") {
             let categoryId = req.body.category;
             filter["categories"] = {
-                $elemMatch:{
-                    "_id" : new mongoose.Types.ObjectId(categoryId)
-                }
-            }
-        }
-        else if(key === "author"){
+                $elemMatch: {
+                    _id: new mongoose.Types.ObjectId(categoryId),
+                },
+            };
+        } else if (key === "author") {
             let authorId = req.body.author;
-            filter["author._id"] = new mongoose.Types.ObjectId(authorId)
-        }
-        else if(key==="searchQuery"){
+            filter["author._id"] = new mongoose.Types.ObjectId(authorId);
+        } else if (key === "searchQuery") {
             let searchQuery = req.body.searchQuery;
-            filter["name"] = new RegExp(".*" + searchQuery + ".*","gmi");
+            filter["name"] = new RegExp(".*" + searchQuery + ".*", "gmi");
         }
         // else if (key === "loves") {
         //     filter.loves = {
@@ -121,7 +118,7 @@ exports.getBookById = async (req, res) => {
 
     if (!book) {
         res.status(400).json({
-            message: "User not found",
+            message: "Book not found",
         });
     }
 
