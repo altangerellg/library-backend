@@ -82,3 +82,15 @@ exports.getCategory = async (req, res) => {
         console.log(err);
     }
 };
+
+exports.getCategoryById = async (req, res) => {
+    const category = await Category.findById(req.params.id);
+
+    if (!category) {
+        res.status(400).json({
+            message: "Category not found",
+        });
+    }
+
+    res.send(category._doc);
+};

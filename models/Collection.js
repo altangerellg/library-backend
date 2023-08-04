@@ -1,7 +1,9 @@
 const { Schema, model } = require("mongoose");
 const CollectionSchema = new Schema({
-    isbn: String,
-    books: Array
+    name: String,
+    likes: Number,
+    books: Array,
+    createdUser: Object,
 });
 
 module.exports = model("collection", CollectionSchema);
