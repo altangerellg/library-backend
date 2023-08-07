@@ -10,13 +10,27 @@ exports.createReview = async(req,res) => {
     console.log(userId)
     const user = await User.findById(userId);
     const book = await Book.findById(req.body.bookId);
-    await Review.create({
+    const createdReview = await Review.create({
       ...req.body,
       user,
       book
     })
+    const review = {
+      _id:createdReview._id,
+      reviewContent: createdReview.reviewContent,
+      user: {
+        _id: createdReview.user._id,
+        firstname: createdReview.user.firstname,
+        lastname: createdReview.user.lastname
+      },
+      book: {
+        bookId: createdReview.book._id
+      },
+      date: createdReview.date
+    }
     return res.status(201).send({
-      message: "Successfully created a review"
+      message: "Successfully created a review",
+      content: review
     })
   }catch(err){
     return res.status(500).send(err);
