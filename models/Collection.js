@@ -1,9 +1,15 @@
 const { Schema, model } = require("mongoose");
+
 const CollectionSchema = new Schema({
-    name: String,
-    likes: Number,
-    books: Array,
-    createdUser: Object,
+    name: { type: String, required: true },
+    likes: { type: Number, default: 0 },
+    books: [
+        {
+            type: Object,
+        },
+    ],
+    createdUser: { type: String, required: true },
+    date: { type: Date, default: Date.now },
 });
 
 module.exports = model("collection", CollectionSchema);
