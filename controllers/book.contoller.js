@@ -4,7 +4,6 @@ const Author = require("../models/Author");
 const { Types, default: mongoose } = require("mongoose");
 const fs = require("fs");
 const path = require("path");
-const User = require("../models/User")
 const jwt = require("../utils/jwt")
 exports.registerBook = async (req, res) => {
     // console.log(req);
