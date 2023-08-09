@@ -8,7 +8,7 @@ const CollectionSchema = new Schema({
             type: Object,
         },
     ],
-    createdUser: { type: String, required: true },
+    createdUser: { type: Object, required: true },
     date: { type: Date, default: Date.now },
 });
 
