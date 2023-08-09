@@ -59,6 +59,9 @@ const BookSchema = new Schema({
         type: Number,
         default: 0,
     },
+    lovedUsers:[{
+        type: Schema.Types.ObjectId
+    }]
 });
 
 module.exports = model("book", BookSchema);

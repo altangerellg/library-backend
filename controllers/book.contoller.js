@@ -4,7 +4,8 @@ const Author = require("../models/Author");
 const { Types, default: mongoose } = require("mongoose");
 const fs = require("fs");
 const path = require("path");
-
+const User = require("../models/User")
+const jwt = require("../utils/jwt")
 exports.registerBook = async (req, res) => {
     // console.log(req);
 
@@ -124,3 +125,48 @@ exports.getBookById = async (req, res) => {
 
     res.send(book._doc);
 };
+
+exports.increaseLoves = async (req,res) =>{
+    try{
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verifyJWT(token)
+        const userId = decoded.userId;
+        const book = await Book.findById(req.params.id); 
+        if(!book) return res.status(404)
+        if (book.lovedUsers.includes(userId)) {
+            return res.status(400).send('User already loved this book');
+          }
+        book.lovedUsers.push(userId);
+        await Book.findByIdAndUpdate(req.params.id,
+            { $inc:{loves : 1}},
+        );
+        await book.save();
+        const newBook = await Book.findById(req.params.id);
+        res.status(200).send(newBook)
+    }catch(err){
+        return res.status(500).send(err)
+    }
+}
+
+exports.decreaseLoves = async(req,res) => {
+    try{
+        const token = req.headers.authorization.split(" ")[1];
+        const decoded = jwt.verifyJWT(token)
+        const userId = decoded.userId;
+        const book = await Book.findById(req.params.id);
+        if(!book) return res.status(404)
+        const index = book.lovedUsers.indexOf(userId);
+        if (index === -1) {
+            return res.status(400).send('User has not loved this book');
+          }
+        book.lovedUsers.splice(index, 1);
+        await Book.findByIdAndUpdate(req.params.id,
+            {$inc:{loves : -1}}
+        );
+        await book.save();
+        const newBook = await Book.findById(req.params.id);
+        res.status(200).send(newBook)
+    }catch(err){
+        return res.status(500).send(err)
+    }
+}
