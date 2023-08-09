@@ -7,7 +7,6 @@ exports.createReview = async(req,res) => {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verifyJWT(token)
     const userId = decoded.userId;
-    console.log(userId)
     const user = await User.findById(userId);
     const book = await Book.findById(req.body.bookId);
     const createdReview = await Review.create({
