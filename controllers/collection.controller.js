@@ -14,7 +14,7 @@ const createCollection = async (req, res) => {
 
         if (!user) throw new Error("Хэрэглэгч олдсонгүй");
         const createdBooks = await Book.find({
-            _id: { $in: req.body.books.map((e) => new Types.ObjectId(e)) },
+            _id: { $in: req.body.books?.map((e) => new Types.ObjectId(e)) },
         });
         const payload = {
             name,

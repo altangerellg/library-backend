@@ -59,13 +59,11 @@ exports.getCategory = async (req, res) => {
         const order = req.query.order === "asc" ? 1 : -1;
 
         let filter = {};
-        Object.keys(req.body).forEach((key) => {
-            filter[key] = {
-                $regex: ".*" + req.body[key] + ".*",
-            };
-        });
+        if (req.body.parent === null) {
+            filter.parent = { $exists: false };
+        }
         const totalElements = await Category.count(filter);
-        const gategories = await Category.find()
+        const gategories = await Category.find(filter)
             .skip(CategorySize * CategoryNumber)
             .limit(CategorySize)
             .sort({
