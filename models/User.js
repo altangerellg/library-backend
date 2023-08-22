@@ -1,3 +1,4 @@
+const { isBefore, format } = require("date-fns");
 const { Schema, model } = require("mongoose");
 const UserSchema = new Schema({
     firstname: {
@@ -8,7 +9,17 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    phone: String,
+    phone: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function (value) {
+                const phoneRegex = /^\d{8}$/;
+                return phoneRegex.test(value);
+            },
+            message: "Invalid phone number. Must be 8 digits.",
+        },
+    },
     email: {
         type: String,
         required: true,
@@ -29,7 +40,20 @@ const UserSchema = new Schema({
         required: true,
     },
     registrationNumber: String,
-    birthDate: Date,
+    birthDate: {
+        required: true,
+        type: Date,
+        validate: {
+            validator: function (value) {
+                return isBefore(new Date(value), new Date());
+            },
+            message: (props) =>
+                `${format(
+                    new Date(props.value),
+                    "yyyy-mm-dd"
+                )} өнөөдрөөс хойш өдөр байна.`,
+        },
+    },
 });
 
 module.exports = model("user", UserSchema);

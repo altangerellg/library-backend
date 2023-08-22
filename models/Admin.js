@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const { isBefore, format } = require("date-fns");
 const AdminSchema = new Schema({
     firstname: {
         type: String,
@@ -9,7 +10,8 @@ const AdminSchema = new Schema({
         required: true,
     },
     phone: {
-        type: Number,
+        required: true,
+        type: String,
         validate: {
             validator: function (value) {
                 const phoneRagex = /^\d{8}$/;
@@ -18,27 +20,45 @@ const AdminSchema = new Schema({
             message: "Invalid phone number, Must be 8 digits",
         },
         unique: true,
-        required: true,
     },
     email: {
+        required: true,
         type: String,
         validate: {
             validator: function (value) {
-                const emailRagex = /^[^|s@]+0[^\s@]+\. [^\s@]+$/;
-                return emailRagex.test(value);
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(value);
             },
             message: "Invalid email address",
         },
         unique: true,
-        required: true,
     },
     hash: String,
     salt: String,
     gender: {
-        String,
+        type: String,
+        enum: ["F", "M"],
+        required: true,
     },
     registrationNumber: String,
-    birthDate: Date,
+    createdAtDatetime: {
+        type: Date,
+        defualt: new Date(),
+    },
+    birthDate: {
+        required: true,
+        type: Date,
+        validate: {
+            validator: function (value) {
+                return isBefore(new Date(value), new Date());
+            },
+            message: (props) =>
+                `${format(
+                    new Date(props.value),
+                    "yyyy-MM-dd"
+                )} өнөөдрөөс хойш өдөр байна.`,
+        },
+    },
 });
 
 module.exports = model("admin", AdminSchema);
