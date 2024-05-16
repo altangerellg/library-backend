@@ -47,11 +47,7 @@ const UserSchema = new Schema({
             validator: function (value) {
                 return isBefore(new Date(value), new Date());
             },
-            message: (props) =>
-                `${format(
-                    new Date(props.value),
-                    "yyyy-mm-dd"
-                )} өнөөдрөөс хойш өдөр байна.`,
+            message: (props) => `${format(new Date(props.value), "yyyy-mm-dd")} өнөөдрөөс хойш өдөр байна.`,
         },
     },
 });

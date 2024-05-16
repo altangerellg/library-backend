@@ -69,7 +69,7 @@ exports.deleteAdmin = async (req, res) => {
         // await Admin.deleteOne("");
 
         return {
-            message: "Successfully registered a admin",
+            message: "Successfully deleted a admin",
         };
     } catch (error) {
         console.log(error);

@@ -8,11 +8,11 @@ const AuthorSchema = new Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        required: true,
-    },
-    image: String,
+    // description: {
+    //     type: String,
+    //     required: true,
+    // },
+    // image: String,
 });
 
 module.exports = model("author", AuthorSchema);

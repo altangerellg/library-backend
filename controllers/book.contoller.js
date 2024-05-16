@@ -1,6 +1,6 @@
 const Book = require("../models/Book");
 const Category = require("../models/Category");
-const Author = require("../models/Author");
+// const Author = require("../models/Author");
 const { Types, default: mongoose } = require("mongoose");
 const fs = require("fs");
 const path = require("path");
@@ -9,11 +9,11 @@ exports.registerBook = async (req, res) => {
     // console.log(req);
 
     const categories = await Category.find({ _id: { $in: req.body.categories.map((e) => new Types.ObjectId(e)) } });
-    const author = await Author.findById(req.body.author);
+    // const author = await Author.findById(req.body.author);
     await Book.create({
         ...req.body,
         categories,
-        author,
+        // author,
     });
 
     return res.status(201).send({
