@@ -33,7 +33,7 @@ const BookSchema = new Schema({
     },
     format: {
         type: String,
-        enum: ["PDF", "EPUB"],
+        enum: ["PDF"],
         required: true,
     },
     coverUrl: String,

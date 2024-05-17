@@ -16,12 +16,17 @@
         "@fastify/autoload": "^5.8.0",
         "@fastify/static": "^6.10.2",
         "date-fns": "^2.30.0",
-        "dotenv": "^16.1.4",
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.19.2",
+        "express-session": "^1.18.0",
         "fastify": "^4.17.0",
         "fastify-multer": "^2.0.3",
         "fs": "^0.0.1-security",
         "jsonwebtoken": "^9.0.0",
-        "mongoose": "^7.2.2"
+        "mongoose": "^7.2.2",
+        "passport": "^0.7.0",
+        "passport-google-oauth2": "^0.2.0"
     },
     "lint-staged": {
         "**/*": "npm run format"
