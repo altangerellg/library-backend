@@ -130,11 +130,11 @@ exports.increaseLoves = async (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verifyJWT(token);
         const userId = decoded.userId;
-        const book = await Book.findById(req.params.id);
+        const book = await Book.findById(req.params.id); 
         if (!book) return res.status(404);
         if (book.lovedUsers.includes(userId)) {
             return res.status(400).send("User already loved this book");
-        }
+          }
         book.lovedUsers.push(userId);
         await Book.findByIdAndUpdate(req.params.id, { $inc: { loves: 1 } });
         await book.save();
@@ -155,7 +155,7 @@ exports.decreaseLoves = async (req, res) => {
         const index = book.lovedUsers.indexOf(userId);
         if (index === -1) {
             return res.status(400).send("User has not loved this book");
-        }
+          }
         book.lovedUsers.splice(index, 1);
         await Book.findByIdAndUpdate(req.params.id, { $inc: { loves: -1 } });
         await book.save();
