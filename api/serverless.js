@@ -22,9 +22,9 @@ server.register(autoload, {
 });
 
 const startServer = async () => {
-    console.log(process.env.DB_URL);
+    console.log(process.env.MONGODB_URI);
     try {
-        await mongoose.connect(`${process.env.DB_URL}`);
+        await mongoose.connect(`${process.env.MONGODB_URI}`);
 
         const salt = crypto.randomBytes(20).toString("hex");
         const userData = {
